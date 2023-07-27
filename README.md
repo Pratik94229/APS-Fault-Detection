@@ -41,27 +41,27 @@ Before we run the project, make sure that you are having MongoDB in your local s
 
 
 ### Step 1: Clone the repository
-```bash
-git clone https://github.com/sethusaim/Sensor-Fault-Detection.git
+```
+https://github.com/Pratik94229/APS-Fault-Detection.git
 ```
 
 ### Step 2- Create a conda environment after opening the repository using following command
 
-```bash
+```
 conda create -p venv python==3.8
 ```
 
-```bash
+```
 conda activate venv
 ```
 
 ### Step 3 - Install the requirements
-```bash
+```
 pip install -r requirements.txt
 ```
 
 ### Step 4 - Export the environment variable
-```bash
+```
 export AWS_ACCESS_KEY_ID=<AWS_ACCESS_KEY_ID>
 
 export AWS_SECRET_ACCESS_KEY=<AWS_SECRET_ACCESS_KEY>
@@ -73,18 +73,18 @@ export MONGODB_URL="mongodb+srv://<username>:<password>@ineuron-ai-projects.7eh1
 ```
 
 ### Step 5 - Run the application server
-```bash
+```
 python app.py
 ```
 
 ### Step 6. Train application
-```bash
+```
 http://localhost:8080/train
 
 ```
 
 ### Step 7. Prediction application
-```bash
+```
 http://localhost:8080/predict
 
 ```
@@ -123,5 +123,6 @@ export MONGO_DB_URL=mongodb+srv://avnish:XglZZ9OkjjUw74pZ@ineuron-ai-projects.7e
 
 then run 
 ```
-python main.py
+python train.py
+python test.py
 ```
