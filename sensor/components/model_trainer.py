@@ -24,12 +24,52 @@ class ModelTrainer:
 
     def fine_tune(self):
         try:
-            #Wite code for Grid Search CV
-            pass
+            logging.info("Performing hyperparameter tuning using RandomizedSearchCV...")
             
+            # Define the hyperparameter grid to search
+            param_grid = {
+                'learning_rate': [0.01, 0.05, 0.1, 0.2, 0.3],
+                'max_depth': [3, 5, 7, 9],
+                'n_estimators': [50, 100, 150, 200],
+                'subsample': [0.6, 0.7, 0.8, 0.9, 1.0],
+                'colsample_bytree': [0.6, 0.7, 0.8, 0.9, 1.0]
+            }
+
+            # Create the XGBoost classifier
+            xgb_clf = XGBClassifier()
+
+            # Create the RandomizedSearchCV object
+            randomized_search = RandomizedSearchCV(
+                xgb_clf,
+                param_distributions=param_grid,
+                n_iter=10,  # Number of iterations for random search
+                scoring='f1',  # Use F1 score as the metric for evaluation
+                n_jobs=-1,  # Use all available CPU cores for parallel processing
+                cv=StratifiedKFold(n_splits=5, shuffle=True),  # Cross-validation strategy
+                verbose=3,
+                random_state=42
+            )
+
+            # Load the training data
+            train_arr = utils.load_numpy_array_data(file_path=self.data_transformation_artifact.transformed_train_path)
+            x_train, y_train = train_arr[:, :-1], train_arr[:, -1]
+
+            # Perform the hyperparameter search
+            randomized_search.fit(x_train, y_train)
+
+            # Get the best estimator and best hyperparameters
+            best_model = randomized_search.best_estimator_
+            best_params = randomized_search.best_params_
+
+            logging.info("Hyperparameter tuning complete. Best hyperparameters:")
+            logging.info(best_params)
+
+            return best_model
 
         except Exception as e:
             raise SensorException(e, sys)
+
+   
 
     def train_model(self,x,y):
         try:
